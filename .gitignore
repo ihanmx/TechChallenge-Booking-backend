@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+*.tsbuildinfo
+
+# Prisma client is generated from prisma/schema.prisma (npm install runs `prisma generate`)
+src/generated
+
+# Real environment files (keep .env.example)
+.env
+.env.*
+!.env.example

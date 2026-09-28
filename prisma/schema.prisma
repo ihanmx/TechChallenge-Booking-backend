@@ -1,0 +1,46 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum BookingStatus {
+  active
+  cancelled
+
+  @@map("booking_status")
+}
+
+/// A fixed appointment slot, created by the seed script.
+/// DB check constraint (see migration): ends_at > starts_at.
+model Slot {
+  id       String    @id @default(uuid()) @db.Uuid
+  startsAt DateTime  @map("starts_at") @db.Timestamptz(3)
+  endsAt   DateTime  @map("ends_at") @db.Timestamptz(3)
+  bookings Booking[]
+
+  @@index([startsAt, id])
+  @@map("slots")
+}
+
+/// A booking is never deleted: cancelling flips status to `cancelled`,
+/// so cancelled bookings stay addressable.
+/// Conflict prevention: a PARTIAL UNIQUE INDEX on (slot_id) WHERE status = 'active'
+/// (created in raw SQL in the migration; Prisma cannot express partial indexes).
+model Booking {
+  id            String        @id @default(uuid()) @db.Uuid
+  slotId        String        @map("slot_id") @db.Uuid
+  slot          Slot          @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  customerName  String        @map("customer_name")
+  customerEmail String        @map("customer_email")
+  status        BookingStatus @default(active)
+  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  cancelledAt   DateTime?     @map("cancelled_at") @db.Timestamptz(3)
+
+  @@index([slotId])
+  @@map("bookings")
+}

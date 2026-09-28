@@ -1,0 +1,23 @@
+﻿# Local PostgreSQL for development and tests (optional - any PostgreSQL 14+ works).
+# Creates two databases: `booking` (dev) and `booking_test` (automated tests).
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: booking-postgres
+    environment:
+      POSTGRES_USER: booking
+      POSTGRES_PASSWORD: booking
+      POSTGRES_DB: booking
+    ports:
+      - '5434:5432'
+    volumes:
+      - booking-pgdata:/var/lib/postgresql/data
+      - ./docker/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U booking -d booking']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  booking-pgdata:
