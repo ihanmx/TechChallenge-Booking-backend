@@ -19,7 +19,7 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:e2e": "vitest run",
     "postinstall": "prisma generate",
     "db:up": "docker compose up -d --wait",
     "db:down": "docker compose down",
@@ -32,7 +32,7 @@
     "db:studio": "prisma studio",
     "db:test:migrate": "cross-env PRISMA_TARGET=test prisma migrate deploy",
     "socket:listen": "tsx scripts/socket-listen.ts",
-    "setup":"npm run db:up && npm run db:migrate:deploy && npm run db:seed"
+    "setup": "npm run db:up && npm run db:migrate:deploy && npm run db:seed"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
@@ -71,7 +71,6 @@
     "supertest": "^7.0.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.2",
-    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.1.2"
   }
 }
