@@ -6,9 +6,10 @@ import { AppService } from './app.service.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 import { appValidationPipe } from './common/pipes/validation.pipe.js';
+import { SlotsModule } from './slots/slots.module.js';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, SlotsModule],
   controllers: [AppController],
   providers: [
     AppService,
