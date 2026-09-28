@@ -173,7 +173,7 @@ The race test was validated by temporarily dropping the unique index: it then fa
 
 ## 9. Time spent and unfinished parts
 
-- **Actual time:** _⚠ fill in_
+- **Actual time:** about 3 hours.
 - **Unfinished parts:** none known. All required endpoints, events, docs and tests are implemented.
 
 ## 10. AI disclosure
